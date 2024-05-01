@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="one"><span>红书书管理系统</span></div>
+        <div class="one"><span>图书管理系统</span></div>
         <div class="two">
             <el-dropdown color="white">
                 <span class="el-dropdown-link">
