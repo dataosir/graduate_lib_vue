@@ -1,7 +1,7 @@
 <template>
     <div id="test">
         <MainVue>
-            <div class="item">欢迎管理员{{ admin.username }}登录</div>
+            <div class="item">欢迎{{ admin.username }}登录</div>
             <div class="item">您的邮箱为{{ admin.email }}</div>
 
         </MainVue>

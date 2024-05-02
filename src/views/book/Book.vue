@@ -45,7 +45,7 @@
                          @click="handelBorrow(scope.row)">借书
               </el-button>
               <el-button v-if="scope.row.status === 1" type="info" disabled>还书</el-button>
-              <el-button  type="info" disabled>购买</el-button>
+              <el-button type="info" @click="handlePurchase(scope.row)">购买</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -217,6 +217,51 @@ export default {
             error_msg("修改失败" + res.msg)
           }
         })
+    }
+    function handlePurchase(row) {
+
+      // ruleFormRef.value.validate((valid, fields) => {
+      //   if (valid) {
+      //     borrowInfo.stuname = form.stuname
+      //     borrowInfo.stunumber = form.stunumber
+      //     console.log(borrowInfo);
+      //     request.post('/user/borrow', borrowInfo)
+      //         .then(res => {
+      //           if (res.code === "200") {
+      //             request.put("/book/change/" + borrowId).then(res => {
+      //               if (res.code === "200") {
+      //                 load()
+      //               } else {
+      //                 error_msg("修改失败" + res.msg)
+      //               }
+      //             })
+      //             request.post("/borrow", form)
+      //                 .then(res => {
+      //                   if (res.code === "200") {
+      //                     susses_msg("添加成功")
+      //                   } else {
+      //                     error_msg("添加失败,错误:" + res.msg)
+      //                   }
+      //                 })
+      //             ruleFormRef.value.resetFields()
+      //           } else {
+      //             error_msg("修改失败" + res.msg)
+      //           }
+      //
+      //         }).catch(() => {
+      //       console.log("出错了");
+      //     })
+      //
+      //
+      //   } else {
+      //     console.log('error submit!', fields)
+      //     return false
+      //   }
+      // })
+      // 在这里添加购买逻辑
+      // 您可以调用相关的扣钱功能或发送购买请求等
+      // 示例：显示购买成功消息
+      susses_msg("购买成功");
     }
 
     return {

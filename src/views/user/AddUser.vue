@@ -14,6 +14,9 @@
                     <el-form-item label="年龄" prop="age">
                         <el-input v-model.number="form.age" placeholder="请输入年龄" />
                     </el-form-item>
+                  <el-form-item label="金额" prop="money">
+                    <el-input v-model.number="form.money" placeholder="请输入金额" />
+                  </el-form-item>
                     <el-form-item label="学号" prop="stunumber">
                         <el-input v-model.number="form.stunumber" placeholder="请输入学号" />
                     </el-form-item>
