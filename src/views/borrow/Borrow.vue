@@ -18,6 +18,7 @@
                     <el-table-column prop="price" label="价钱"></el-table-column>
                     <el-table-column prop="author" label="作者"></el-table-column>
                     <el-table-column prop="createtime" label="出版日期"></el-table-column>
+                    <el-table-column prop="buyedStr" label="是否买过"></el-table-column>
                     <el-table-column label="操作" width="400">
                         <template #default="scope">
                             <!-- scope.row 当前行数据 -->
