@@ -68,6 +68,20 @@
             <el-button color="#40485b" @click="borrowSubmit">确 定</el-button>
           </div>
         </el-dialog>
+        <el-dialog title="添加买书信息" v-model="dialogFormVisibleBuy" width="40%">
+          <el-form :model="form" label-width="120px" ref="ruleFormRef" :rules="rules" style="width: 85%">
+            <el-form-item label="买书学生姓名" prop="stuname">
+              <el-input v-model="form.stuname" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="买书学生学号" prop="stunumber">
+              <el-input v-model="form.stunumber" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div class="dialog-footer">
+            <el-button @click="dialogFormVisibleBuy = false">关 闭</el-button>
+            <el-button color="#40485b" @click="buySubmit">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
     </MainVue>
   </div>
@@ -109,6 +123,7 @@ export default {
       price: null,
     })
     let dialogFormVisible = ref(false)
+    let dialogFormVisibleBuy = ref(false)
 
     function load() {
       request.get('/book/page', {params})
@@ -144,7 +159,8 @@ export default {
     let borrowId;
     let borrowInfo = reactive({
       stuname: '',
-      stunumber: ''
+      stunumber: '',
+      price: ''
     })
 
     function handelBorrow(row) {
@@ -192,7 +208,6 @@ export default {
             console.log("出错了");
           })
 
-
         } else {
           console.log('error submit!', fields)
           return false
@@ -200,6 +215,41 @@ export default {
       })
     }
 
+    function handlePurchase(row) {
+
+      dialogFormVisibleBuy.value = true
+      console.log(dialogFormVisibleBuy.value);
+
+      borrowId = row.id;
+      form.name = row.name
+      form.author = row.author
+      form.price = row.price
+
+    }
+    const buySubmit = () => {//提交买书信息
+      ruleFormRef.value.validate((valid, fields) => {
+        if (valid) {
+          borrowInfo.stuname = form.stuname
+          borrowInfo.stunumber = form.stunumber
+          borrowInfo.price = form.price
+          console.log(borrowInfo);
+          request.post("/user/buying", borrowInfo).then(res => {
+                if (res.code === "200") {
+                  susses_msg("购买成功")
+                  load()
+                  return
+                } else {
+                  error_msg("购买失败" + res.msg)
+                  return;
+                }
+              }
+          )
+        } else {
+          console.log('error submit!', fields)
+          return false
+        }
+      })
+    }
     function del(row) {
       request.delete("/book/delete/" + row.id).then(res => {
         if (res.code === "200") {
@@ -218,51 +268,7 @@ export default {
           }
         })
     }
-    function handlePurchase(row) {
 
-      // ruleFormRef.value.validate((valid, fields) => {
-      //   if (valid) {
-      //     borrowInfo.stuname = form.stuname
-      //     borrowInfo.stunumber = form.stunumber
-      //     console.log(borrowInfo);
-      //     request.post('/user/borrow', borrowInfo)
-      //         .then(res => {
-      //           if (res.code === "200") {
-      //             request.put("/book/change/" + borrowId).then(res => {
-      //               if (res.code === "200") {
-      //                 load()
-      //               } else {
-      //                 error_msg("修改失败" + res.msg)
-      //               }
-      //             })
-      //             request.post("/borrow", form)
-      //                 .then(res => {
-      //                   if (res.code === "200") {
-      //                     susses_msg("添加成功")
-      //                   } else {
-      //                     error_msg("添加失败,错误:" + res.msg)
-      //                   }
-      //                 })
-      //             ruleFormRef.value.resetFields()
-      //           } else {
-      //             error_msg("修改失败" + res.msg)
-      //           }
-      //
-      //         }).catch(() => {
-      //       console.log("出错了");
-      //     })
-      //
-      //
-      //   } else {
-      //     console.log('error submit!', fields)
-      //     return false
-      //   }
-      // })
-      // 在这里添加购买逻辑
-      // 您可以调用相关的扣钱功能或发送购买请求等
-      // 示例：显示购买成功消息
-      susses_msg("购买成功");
-    }
 
     return {
       tableData,
@@ -271,13 +277,16 @@ export default {
       rules,
       ruleFormRef,
       dialogFormVisible,
+      dialogFormVisibleBuy,
       form,
       borrowSubmit,
+      buySubmit,
       load,
       reset,
       handleCurrentChange,
       del,
       handelBorrow,
+      handlePurchase,
     }
   },
   components: {
