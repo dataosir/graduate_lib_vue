@@ -121,6 +121,7 @@ export default {
       stuname: '',
       stunumber: '',
       price: null,
+      bookId: null,
     })
     let dialogFormVisible = ref(false)
     let dialogFormVisibleBuy = ref(false)
@@ -172,6 +173,7 @@ export default {
       form.name = row.name
       form.author = row.author
       form.price = row.price
+      form.bookId = row.id
 
     }
 
@@ -224,6 +226,8 @@ export default {
       form.name = row.name
       form.author = row.author
       form.price = row.price
+      form.bookId = row.id
+
 
     }
     const buySubmit = () => {//提交买书信息
@@ -232,6 +236,7 @@ export default {
           borrowInfo.stuname = form.stuname
           borrowInfo.stunumber = form.stunumber
           borrowInfo.price = form.price
+          borrowInfo.bookId = form.bookId
           console.log(borrowInfo);
           request.post("/user/buying", borrowInfo).then(res => {
                 if (res.code === "200") {
